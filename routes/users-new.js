@@ -1,3 +1,4 @@
+// routes/users.js
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
@@ -32,27 +33,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-// GET User Profile
-router.get('/profile', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  try {
-    // Extract username from the authenticated user
-    const username = req.user.username;
-
-    // Find the user by username
-    const user = await Users.findOne({ username }).exec();
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Return only the necessary information
-    res.json({ username: user.username, /* add other necessary fields */ });
-  } catch (err) {
-    // Handle errors
-    next(err);
-  }
-});
-
+//////////////////////////////////////////////////////////////
 // GET Users DATA (Single)
 router.get('/:id', async (req, res, next) => {
     try {
@@ -100,5 +81,11 @@ router.delete('/:id', async (req, res, next) => {
     }
 });
 
+
+
+// Users Authentication
+router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
+  res.json({ user: req.user });
+});
 
 module.exports = router;
