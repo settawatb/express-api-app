@@ -8,18 +8,18 @@ const passport = require('passport');
 
 router.post('/register', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    // Validate that email and password are provided
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required.' });
+    // Validate that username and password are provided
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password are required.' });
     }
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
     const newUser = new User({
-      email,
+      username,
       password: hashedPassword,
     });
 
@@ -46,7 +46,7 @@ router.post('/login', (req, res, next) => {
     }
 
     // Assuming you have a user model with an '_id' field
-    const token = jwt.sign({ id: user._id, email: user.email }, 'your-secret-key', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, username: user.username }, 'your-secret-key', { expiresIn: '1h' });
     return res.json({ token });
   })(req, res, next);
 });

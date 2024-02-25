@@ -58,7 +58,8 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Server is running on http://0.0.0.0:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`listen 0.0.0.0`);
 });
 
 module.exports = app;
