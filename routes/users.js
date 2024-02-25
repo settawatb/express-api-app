@@ -83,8 +83,6 @@ router.put('/:id', async (req, res, next) => {
     }
 });
 
-
-
 // DELETE User by ID
 router.delete('/:id', async (req, res, next) => {
     try {
