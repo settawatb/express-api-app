@@ -8,12 +8,13 @@ const passport = require('passport');
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, email, address, phoneNum, dateOfBirth } = req.body;
 
-    // Validate that username and password are provided
-    if (!username || !password) {
-      return res.status(400).json({ error: 'Username and password are required.' });
+    // Validate that required fields are provided
+    if (!username || !password || !email || !address || !phoneNum || !dateOfBirth) {
+      return res.status(400).json({ error: 'All fields are required.' });
     }
+
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -21,6 +22,10 @@ router.post('/register', async (req, res) => {
     const newUser = new User({
       username,
       password: hashedPassword,
+      email,
+      address,
+      phoneNum,
+      dateOfBirth,
     });
 
     // Save the user to the database

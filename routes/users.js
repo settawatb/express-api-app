@@ -1,3 +1,4 @@
+// users.js
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
@@ -45,11 +46,18 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), async (
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Return only the necessary information
-    res.json({ username: user.username, /* add other necessary fields */ });
+    // Return additional fields like email, address, phoneNum, and dateOfBirth
+    res.json({
+      username: user.username,
+      email: user.email,
+      address: user.address,
+      phoneNum: user.phoneNum,
+      dateOfBirth: user.dateOfBirth.toISOString().split('T')[0], // Convert date to YYYY-MM-DD format
+    });
   } catch (err) {
     // Handle errors
-    next(err);
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 
