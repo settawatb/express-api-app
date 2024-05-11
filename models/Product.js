@@ -1,5 +1,5 @@
 // models/Product.js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
   product_name: String,
@@ -13,26 +13,12 @@ const productSchema = new mongoose.Schema({
   product_seller: {
     seller_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Seller',
-      unique: false, // Allowing multiple products with the same seller
-      required: false, // Allowing null values
+      ref: "Seller",
+      required: false,
     },
-    // You may add other seller-related fields here
+    seller_name: String,
+    seller_address: String,
   },
-  product_rating: [{
-    user_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: false, // Allowing null values
-    },
-    rating: {
-      type: Number,
-      min: 1,
-      max: 5,
-      required: false, // Allowing null values
-    },
-    review_text: String,
-  }],
 });
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model("Product", productSchema);
